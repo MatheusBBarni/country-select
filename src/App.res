@@ -1,6 +1,6 @@
 @react.component
 let make = () => {
   <div className="App">
-    <CountrySelect />
+    <CountrySelect className="" country=None onChange={country => Js.log(country)} />
   </div>
 }
