@@ -1,0 +1,9 @@
+@import "variables";
+
+.container {
+  h1 {
+    font-family: $font;
+    color: $text-color;
+    font-size: 1rem;
+  }
+}
