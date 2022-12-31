@@ -1,9 +1,105 @@
 @import "variables";
 
-.container {
-  h1 {
+.country-select {
+  button {
+    all: unset;
+  }
+
+  .country-select__trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 0 15px;
+    font-size: 0.875rem;
+    line-height: 1;
+    height: 30px;
+    gap: 5px;
+    background-color: $white;
+    color: $text-color;
+    font-family: $font;
+
+    &:focus {
+      box-shadow: 0 0 0 2px $text-color;
+    }
+
+    &[data-placeholder] {
+      font-family: $font;
+      color: $text-color;
+    }
+
+    .country-select__icon {
+      color: $text-color;
+    }
+
+    span {
+      &.fi {
+        display: none;
+      }
+    }
+  }
+}
+
+// This class is outside the country-select class 
+// because it's rendered in a portal
+.country-select__content {
+  margin-top: 40px;
+  overflow: hidden;
+  background-color: $white;
+  border-radius: 6px;
+  box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
+
+  .country-select__viewport {
+    padding: 2px;
+  }
+
+
+  .country-select__item {
+    font-size: 0.875rem;
+    line-height: 1;
     font-family: $font;
     color: $text-color;
-    font-size: 1rem;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    height: 25px;
+    padding: 0 35px 0 25px;
+    position: relative;
+    user-select: none;
+
+    &[data-disabled] {
+      color: rgba(0, 0, 0, 0.5);
+      pointer-events: none;
+    }
+
+    &[data-highlighted] {
+      outline: none;
+      background-color: var(--violet9);
+      color: var(--violet1);
+    }
+
+    span {
+      margin-right: 5px;
+    }
+
+    .country-select__item__indicator {
+      position: absolute;
+      left: 0;
+      width: 25px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  .country-select__scroll-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 25px;
+    background-color: white;
+    color: var(--violet11);
+    cursor: default;
   }
 }

@@ -1,7 +1,12 @@
 module Select = {
   module Root = {
     @react.component @module("@radix-ui/react-select")
-    external make: (~value: string=?, ~children: React.element) => React.element = "Root"
+    external make: (
+      ~value: option<string>,
+      ~children: React.element,
+      ~onValueChange: string => unit=?,
+      ~onClick: unit => unit=?,
+    ) => React.element = "Root"
   }
 
   module Trigger = {
@@ -80,5 +85,23 @@ module Select = {
       ~children: React.element,
       ~className: string=?,
     ) => React.element = "ItemIndicator"
+  }
+
+  module ScrollUpButton = {
+    @react.component @module("@radix-ui/react-select")
+    external make: (
+      ~asChild: bool=?,
+      ~children: React.element,
+      ~className: string=?,
+    ) => React.element = "ScrollUpButton"
+  }
+
+  module ScrollDownButton = {
+    @react.component @module("@radix-ui/react-select")
+    external make: (
+      ~asChild: bool=?,
+      ~children: React.element,
+      ~className: string=?,
+    ) => React.element = "ScrollDownButton"
   }
 }
