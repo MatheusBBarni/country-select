@@ -10,7 +10,7 @@ module GetCountries = Axios.MakeAxios({
   type t = array<country>
 })
 
-let make = () => {
+let useCountries = () => {
   let (countries, setCountries) = React.useState(_ => Empty)
   let (loading, setLoading) = React.useState(_ => true)
   let (error, setError) = React.useState(_ => false)

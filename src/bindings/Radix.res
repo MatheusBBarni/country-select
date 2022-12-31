@@ -67,6 +67,7 @@ module Select = {
       ~children: React.element,
       ~className: string=?,
       ~value: string=?,
+      ~textValue: string=?,
     ) => React.element = "Item"
   }
 

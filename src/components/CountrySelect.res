@@ -21,16 +21,16 @@ module SelectItem = {
 
 @react.component
 let make = (~className: string, ~country: option<string>, ~onChange: string => unit) => {
-  let (countries, loading, error) = UseCountries.make()
+  let (countries, loading, error) = Countries.useCountries()
   let (search, setSearch) = React.useState(_ => "")
 
-  let value = React.useMemo3(() => {
+  let value = React.useMemo4(() => {
     switch (loading, error, countries) {
     | (true, false, Empty) => None
     | (false, true, Empty) => None
     | _ => country
     }
-  }, (loading, error, countries))
+  }, (loading, error, countries, country))
 
   <div className={`country-select ${className}`}>
     <Select.Root value onClick={_ => Js.log("123")} onValueChange=onChange>
@@ -61,7 +61,7 @@ let make = (~className: string, ~country: option<string>, ~onChange: string => u
           <Select.ScrollUpButton className="country-select__scroll-button">
             <ChevronUpIcon />
           </Select.ScrollUpButton>
-          <Select.Viewport>
+          <Select.Viewport className="country-select__viewport">
             {switch countries {
             | Empty => <SelectItem value="" label="No countries" />
             | Data(countries) =>

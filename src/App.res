@@ -2,7 +2,13 @@
 
 @react.component
 let make = () => {
+  let (selectedCountry, setSelectedCountry) = React.useState(_ => Some("us"))
+
   <div className="app">
-    <CountrySelect className="" country=Some("us") onChange={country => Js.log(country)} />
+    <CountrySelect
+      className=""
+      country=selectedCountry
+      onChange={country => setSelectedCountry(_ => Some(country))}
+    />
   </div>
 }
