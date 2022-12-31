@@ -9,8 +9,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 4px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: $border-radius;
+    border: $border;
     padding: 0 15px;
     font-size: 0.875rem;
     line-height: 1;
@@ -47,13 +47,10 @@
   margin-top: 40px;
   overflow: hidden;
   background-color: $white;
-  border-radius: 6px;
+  border-radius: $border-radius;
+  border: $border;
   box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
-
-  .country-select__viewport {
-    padding: 2px;
-  }
-
+  padding: 2px;
 
   .country-select__item {
     font-size: 0.875rem;
@@ -75,8 +72,11 @@
 
     &[data-highlighted] {
       outline: none;
-      background-color: var(--violet9);
-      color: var(--violet1);
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    &:active {
+      pointer-events: none;
     }
 
     span {
@@ -99,7 +99,7 @@
     justify-content: center;
     height: 25px;
     background-color: white;
-    color: var(--violet11);
+    color: $text-color;
     cursor: default;
   }
 }

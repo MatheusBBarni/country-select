@@ -1,0 +1,29 @@
+@import "variables";
+
+.search-input {
+  width: 100%;
+  height: 35px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: $text-color;
+
+  svg {
+    position: absolute;
+    margin-left: 10px;
+  }
+
+  input {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding-left: 35px;
+    font-size: 0.875rem;
+    border: $border;
+    border-radius: $border-radius;
+
+    &::placeholder {
+      color: $placeholder-color;
+    }
+  }
+}

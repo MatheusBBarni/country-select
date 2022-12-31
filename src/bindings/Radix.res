@@ -24,6 +24,7 @@ module Select = {
       ~asChild: bool=?,
       ~placeholder: string=?,
       ~children: React.element=?,
+      ~ariaLabel: string,
     ) => React.element = "Value"
   }
 

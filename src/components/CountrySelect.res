@@ -4,8 +4,6 @@ open Renderer
 open Radix
 open RadixIcons
 
-// <span className="fi fi-br" />
-
 module SelectItem = {
   @react.component
   let make = (~value: string, ~label: string) => {
@@ -24,35 +22,56 @@ module SelectItem = {
 @react.component
 let make = (~className: string, ~country: option<string>, ~onChange: string => unit) => {
   let (countries, loading, error) = UseCountries.make()
+  let (search, setSearch) = React.useState(_ => "")
 
-  Js.log3(countries, loading, error)
+  let value = React.useMemo3(() => {
+    switch (loading, error, countries) {
+    | (true, false, Empty) => None
+    | (false, true, Empty) => None
+    | _ => country
+    }
+  }, (loading, error, countries))
 
   <div className={`country-select ${className}`}>
-    <Select.Root
-      value={switch (loading, error, countries) {
-      | (true, false, Empty) => None
-      | (false, true, Empty) => None
-      | _ => country
-      }}
-      onClick={_ => Js.log("123")}
-      onValueChange=onChange>
+    <Select.Root value onClick={_ => Js.log("123")} onValueChange=onChange>
       <Select.Trigger className="country-select__trigger">
-        <Select.Value placeholder="Select a country" />
+        <Select.Value
+          placeholder="Select a country"
+          ariaLabel={switch value {
+          | None => ""
+          | Some(s) => s
+          }}>
+          {switch (value, countries) {
+          | (None, _) => ""
+          | (Some(countryCode), Data(countries)) =>
+            switch countries->Js.Array2.find(country => country.value == countryCode) {
+            | None => ""
+            | Some(country) => country.label
+            }
+          | _ => ""
+          }->s}
+        </Select.Value>
         <Select.Icon className="country-select__icon">
-          <ChevronDownIcon />
+          <TriangleDownIcon width=22 height=22 />
         </Select.Icon>
       </Select.Trigger>
       <Select.Portal>
         <Select.Content className="country-select__content">
-          <input />
+          <SearchInput value=search onChange={value => setSearch(_ => value)} />
           <Select.ScrollUpButton className="country-select__scroll-button">
             <ChevronUpIcon />
           </Select.ScrollUpButton>
-          <Select.Viewport className="country-select__viewport">
+          <Select.Viewport>
             {switch countries {
             | Empty => <SelectItem value="" label="No countries" />
             | Data(countries) =>
-              countries->map(country => {
+              countries
+              ->Js.Array2.filter(country =>
+                search
+                ->Js.String.toLowerCase
+                ->Js.String.includes(country.label->Js.String.toLowerCase)
+              )
+              ->map(country => {
                 <SelectItem key={country.value} value={country.value} label={country.label} />
               })
             }}
