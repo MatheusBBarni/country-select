@@ -29,8 +29,15 @@
       color: $text-color;
     }
 
+    &[data-state="open"] {
+      .country-select__icon {
+        transform: rotate(180deg);
+      }
+    }
+
     .country-select__icon {
       color: $text-color;
+      transition: transform 150ms ease;
     }
 
     span {

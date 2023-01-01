@@ -17,6 +17,8 @@ module SelectItem = {
       </Select.ItemIndicator>
     </Select.Item>
   }
+
+  let make = React.memo(make)
 }
 
 @react.component
@@ -35,12 +37,7 @@ let make = (~className: string, ~country: option<string>, ~onChange: string => u
   <div className={`country-select ${className}`}>
     <Select.Root value onClick={_ => Js.log("123")} onValueChange=onChange>
       <Select.Trigger className="country-select__trigger">
-        <Select.Value
-          placeholder="Select a country"
-          ariaLabel={switch value {
-          | None => ""
-          | Some(s) => s
-          }}>
+        <Select.Value placeholder="Select a country">
           {switch (value, countries) {
           | (None, _) => ""
           | (Some(countryCode), Data(countries)) =>
@@ -52,7 +49,7 @@ let make = (~className: string, ~country: option<string>, ~onChange: string => u
           }->s}
         </Select.Value>
         <Select.Icon className="country-select__icon">
-          <TriangleDownIcon width=22 height=22 />
+          <TriangleDownIcon width=20 height=20 />
         </Select.Icon>
       </Select.Trigger>
       <Select.Portal>
@@ -84,3 +81,5 @@ let make = (~className: string, ~country: option<string>, ~onChange: string => u
     </Select.Root>
   </div>
 }
+
+let make = React.memo(make)

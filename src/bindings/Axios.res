@@ -9,5 +9,6 @@ module type Config = {
 }
 
 module MakeAxios = (M: Config) => {
-  @module("axios") external get: string => Promise.t<axiosResponse<M.t>> = "get"
+  type response = M.t
+  @module("axios") external get: string => Promise.t<axiosResponse<response>> = "get"
 }
