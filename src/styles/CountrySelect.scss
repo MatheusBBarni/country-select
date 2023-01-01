@@ -51,6 +51,12 @@
 // This class is outside the country-select class 
 // because it's rendered in a portal
 .country-select__content {
+  top: 0;
+  position: absolute;
+  width: 40vw;
+  height: 70vh;
+  display: flex;
+  flex-direction: column;
   margin-top: 40px;
   overflow: hidden;
   background-color: $white;
@@ -64,6 +70,7 @@
   }
 
   .country-select__item {
+    width: 100%;
     font-size: 0.875rem;
     line-height: 1;
     font-family: $font;
@@ -75,6 +82,7 @@
     padding: 0 35px 0 25px;
     position: relative;
     user-select: none;
+    margin-bottom: 5px;
 
     &[data-disabled] {
       color: rgba(0, 0, 0, 0.5);
@@ -108,5 +116,9 @@
     background-color: white;
     color: $text-color;
     cursor: default;
+  }
+
+  @media (max-width: 900px) {
+    width: 80vw;
   }
 }

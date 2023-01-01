@@ -35,7 +35,13 @@ let make = (~className: string, ~country: option<string>, ~onChange: string => u
   }, (loading, error, countries, country))
 
   <div className={`country-select ${className}`}>
-    <Select.Root value onClick={_ => Js.log("123")} onValueChange=onChange>
+    <Select.Root
+      value
+      onClick={_ => Js.log("123")}
+      onValueChange={selectedCountry => {
+        onChange(selectedCountry)
+        setSearch(_ => "")
+      }}>
       <Select.Trigger className="country-select__trigger">
         <Select.Value placeholder="Select a country">
           {switch (value, countries) {
@@ -54,7 +60,9 @@ let make = (~className: string, ~country: option<string>, ~onChange: string => u
       </Select.Trigger>
       <Select.Portal>
         <Select.Content className="country-select__content">
-          <SearchInput value=search onChange={value => setSearch(_ => value)} />
+          <div>
+            <SearchInput value=search onChange={value => setSearch(_ => value)} />
+          </div>
           <Select.ScrollUpButton className="country-select__scroll-button">
             <ChevronUpIcon />
           </Select.ScrollUpButton>
