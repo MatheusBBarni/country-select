@@ -1,6 +1,5 @@
 %%raw(`import '../styles/SearchInput.scss'`)
 
-open Window
 open RadixIcons
 
 @send external focus: Dom.element => unit = "focus"
