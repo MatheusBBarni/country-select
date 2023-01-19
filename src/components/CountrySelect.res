@@ -3,6 +3,7 @@
 open Renderer
 open Radix
 open RadixIcons
+open ReactCountryFlag
 
 let randonCountryNumber = () => {
   let firstPart = Js.Math.random_int(1, 500)->Js.Int.toPrecision
@@ -17,7 +18,7 @@ module SelectItem = {
       <Select.ItemText asChild=true>
         <div className="country-select__item__wrapper">
           <div className="country-select__item__wrapper__texts">
-            <span className={`fi fi-${value}`} />
+            <Flag countryCode=value />
             <span className="country-select__item__text"> {label->React.string} </span>
           </div>
           <span className="country-select__item__number"> {randonCountryNumber()->s} </span>
@@ -64,7 +65,7 @@ let make = (~className: string, ~country: option<string>, ~onChange: string => u
           {switch (selectValue, country) {
           | (_, Some(country)) =>
             <div>
-              <span className={`fi fi-${country}`} />
+              <Flag countryCode=country />
               {selectValue->s}
             </div>
 

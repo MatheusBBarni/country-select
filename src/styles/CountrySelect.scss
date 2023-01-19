@@ -1,5 +1,7 @@
 @import "variables";
 
+
+
 .country-select {
   button {
     all: unset;
@@ -41,7 +43,7 @@
     }
 
     span {
-      &.fi {
+      &[role="img"] {
         margin-right: 8px;
       }
     }
@@ -53,7 +55,7 @@
 .country-select__content {
   position: absolute;
   width: 230px;
-  height: 70vh;
+  height: 400px;
   display: flex;
   flex-direction: column;
   margin-top: 40px;
@@ -143,9 +145,5 @@
     background-color: white;
     color: $text-color;
     cursor: default;
-  }
-
-  @media (max-width: 900px) {
-    width: 80vw;
   }
 }
