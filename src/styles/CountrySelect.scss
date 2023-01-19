@@ -39,13 +39,22 @@
 
     .country-select__icon {
       color: $text-color;
-      transition: transform 150ms ease;
+      transition: transform 100ms ease;
     }
 
-    span {
-      &[role="img"] {
-        margin-right: 8px;
+    .country-select__trigger__value {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 14px;
+        height: 14px;
       }
+    }
+
+    span[role="img"],
+    img {
+      margin-right: 8px;
     }
   }
 }
@@ -106,7 +115,13 @@
       .country-select__item__wrapper__texts {
         max-width: 20ch;
         display: flex;
+        align-items: center;
         gap: 8px;
+
+        img {
+          width: 14px;
+          height: 14px;
+        }
 
         .country-select__item__text {
           white-space: nowrap;

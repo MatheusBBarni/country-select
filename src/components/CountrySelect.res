@@ -18,7 +18,7 @@ module SelectItem = {
       <Select.ItemText asChild=true>
         <div className="country-select__item__wrapper">
           <div className="country-select__item__wrapper__texts">
-            <Flag countryCode=value />
+            <Flag svg=true countryCode=value />
             <span className="country-select__item__text"> {label->React.string} </span>
           </div>
           <span className="country-select__item__number"> {randonCountryNumber()->s} </span>
@@ -64,8 +64,8 @@ let make = (~className: string, ~country: option<string>, ~onChange: string => u
         <Select.Value placeholder="Select a country">
           {switch (selectValue, country) {
           | (_, Some(country)) =>
-            <div>
-              <Flag countryCode=country />
+            <div className="country-select__trigger__value">
+              <Flag svg=true countryCode=country />
               {selectValue->s}
             </div>
 
