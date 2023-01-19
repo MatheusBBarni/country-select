@@ -42,7 +42,7 @@
 
     span {
       &.fi {
-        display: none;
+        margin-right: 8px;
       }
     }
   }
@@ -51,37 +51,33 @@
 // This class is outside the country-select class 
 // because it's rendered in a portal
 .country-select__content {
-  top: 0;
   position: absolute;
-  width: 35vw;
+  width: 230px;
   height: 70vh;
   display: flex;
   flex-direction: column;
   margin-top: 40px;
+  margin-left: -5px;
   overflow: hidden;
   background-color: $white;
   border-radius: $border-radius;
   border: $border;
   box-shadow: 0px 10px 38px -10px rgba(22, 23, 24, 0.35), 0px 10px 20px -15px rgba(22, 23, 24, 0.2);
-  padding: 6px;
 
   .country-select__viewport {
     margin-top: 5px;
   }
 
   .country-select__item {
-    width: 100%;
     font-size: 0.875rem;
     line-height: 1;
     font-family: $font;
     color: $text-color;
-    border-radius: 3px;
     display: flex;
     align-items: center;
-    height: 25px;
-    padding: 0 35px 0 25px;
+    height: 26px;
+    padding: 0 10px 0 10px;
     position: relative;
-    user-select: none;
     margin-bottom: 5px;
 
     &[data-disabled] {
@@ -94,8 +90,39 @@
       background-color: rgba(0, 0, 0, 0.1);
     }
 
-    span {
-      margin-right: 5px;
+    &[data-state="checked"] {
+      background-color: $highlight;
+    }
+
+    .country-select__item__wrapper {
+      width: 100%;
+      display: flex;
+      overflow: hidden;
+      position: relative;
+      justify-content: space-between;
+
+      .country-select__item__wrapper__texts {
+        max-width: 20ch;
+        display: flex;
+        gap: 8px;
+
+        .country-select__item__text {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          max-width: 50ch;
+        }
+      }
+
+      .country-select__item__number {
+        color: rgba(0, 0, 0, 0.52);
+      }
+
+      span {
+        .fi {
+          margin-right: 5px;
+        }
+      }
     }
 
     .country-select__item__indicator {

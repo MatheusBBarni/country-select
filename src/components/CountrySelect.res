@@ -4,17 +4,25 @@ open Renderer
 open Radix
 open RadixIcons
 
+let randonCountryNumber = () => {
+  let firstPart = Js.Math.random_int(1, 500)->Js.Int.toPrecision
+  let secondPart = Js.Math.random_int(0, 9)->Js.Int.toPrecision
+  `${firstPart}.${secondPart}k`
+}
+
 module SelectItem = {
   @react.component
   let make = (~value: string, ~label: string) => {
     <Select.Item className="country-select__item" value>
-      <Select.ItemText>
-        <span className={`fi fi-${value}`} />
-        {label->React.string}
+      <Select.ItemText asChild=true>
+        <div className="country-select__item__wrapper">
+          <div className="country-select__item__wrapper__texts">
+            <span className={`fi fi-${value}`} />
+            <span className="country-select__item__text"> {label->React.string} </span>
+          </div>
+          <span className="country-select__item__number"> {randonCountryNumber()->s} </span>
+        </div>
       </Select.ItemText>
-      <Select.ItemIndicator className="country-select__item__indicator">
-        <CheckIcon />
-      </Select.ItemIndicator>
     </Select.Item>
   }
 
@@ -34,25 +42,34 @@ let make = (~className: string, ~country: option<string>, ~onChange: string => u
     }
   }, (loading, error, countries, country))
 
+  let selectValue = switch (value, countries) {
+  | (None, _) => ""
+  | (Some(countryCode), Data(countries)) =>
+    switch countries->Js.Array2.find(country => country.value == countryCode) {
+    | None => ""
+    | Some(country) => country.label
+    }
+  | _ => ""
+  }
+
   <div className={`country-select ${className}`}>
     <Select.Root
       value
-      onClick={_ => Js.log("123")}
       onValueChange={selectedCountry => {
         onChange(selectedCountry)
         setSearch(_ => "")
       }}>
       <Select.Trigger className="country-select__trigger">
         <Select.Value placeholder="Select a country">
-          {switch (value, countries) {
-          | (None, _) => ""
-          | (Some(countryCode), Data(countries)) =>
-            switch countries->Js.Array2.find(country => country.value == countryCode) {
-            | None => ""
-            | Some(country) => country.label
-            }
-          | _ => ""
-          }->s}
+          {switch (selectValue, country) {
+          | (_, Some(country)) =>
+            <div>
+              <span className={`fi fi-${country}`} />
+              {selectValue->s}
+            </div>
+
+          | ("", None) => selectValue->s
+          }}
         </Select.Value>
         <Select.Icon className="country-select__icon">
           <TriangleDownIcon width=20 height=20 />
