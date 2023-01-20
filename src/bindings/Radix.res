@@ -47,6 +47,7 @@ module Select = {
       ~asChild: bool=?,
       ~children: React.element,
       ~className: string=?,
+      ~style: ReactDOM.style=?,
     ) => React.element = "Content"
   }
 
@@ -67,6 +68,7 @@ module Select = {
       ~className: string=?,
       ~value: string=?,
       ~textValue: string=?,
+      ~disabled: bool=?,
     ) => React.element = "Item"
   }
 

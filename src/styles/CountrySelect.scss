@@ -39,7 +39,7 @@
 
     .country-select__icon {
       color: $text-color;
-      transition: transform 100ms ease;
+      transition: transform 200ms ease-in-out;
     }
 
     .country-select__trigger__value {

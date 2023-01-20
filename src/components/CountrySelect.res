@@ -14,14 +14,17 @@ let randonCountryNumber = () => {
 module SelectItem = {
   @react.component
   let make = (~value: string, ~label: string) => {
-    <Select.Item className="country-select__item" value>
+    <Select.Item className="country-select__item" disabled={value === ""} value>
       <Select.ItemText asChild=true>
         <div className="country-select__item__wrapper">
           <div className="country-select__item__wrapper__texts">
             <Flag svg=true countryCode=value />
             <span className="country-select__item__text"> {label->React.string} </span>
           </div>
-          <span className="country-select__item__number"> {randonCountryNumber()->s} </span>
+          {switch value {
+          | "" => React.null
+          | _ => <span className="country-select__item__number"> {randonCountryNumber()->s} </span>
+          }}
         </div>
       </Select.ItemText>
     </Select.Item>
@@ -43,15 +46,49 @@ let make = (~className: string, ~country: option<string>, ~onChange: string => u
     }
   }, (loading, error, countries, country))
 
-  let selectValue = switch (value, countries) {
-  | (None, _) => ""
-  | (Some(countryCode), Data(countries)) =>
-    switch countries->Js.Array2.find(country => country.value == countryCode) {
-    | None => ""
-    | Some(country) => country.label
+  let filteredCountries = React.useMemo2(() => {
+    switch countries {
+    | Empty => []
+    | Data(countries) =>
+      countries->Js.Array2.filter(country =>
+        search->Js.String.toLowerCase->Js.String.includes(country.label->Js.String.toLowerCase)
+      )
     }
-  | _ => ""
-  }
+  }, (countries, search))
+
+  let selectValue = React.useMemo2(() => {
+    switch (value, countries) {
+    | (None, _) => ""
+    | (Some(countryCode), Data(countries)) =>
+      switch countries->Js.Array2.find(country => country.value == countryCode) {
+      | None => ""
+      | Some(country) => country.label
+      }
+    | _ => ""
+    }
+  }, (value, countries))
+
+  let contentHeight = React.useMemo2(() => {
+    switch filteredCountries {
+    | [] => 80
+    | countries => {
+        let countriesLength = countries->Js.Array.length
+        if countriesLength === 2 {
+          120
+        } else if countriesLength === 1 {
+          80
+        } else if countriesLength <= 5 {
+          200
+        } else if countriesLength <= 7 {
+          280
+        } else if countriesLength < 12 {
+          380
+        } else {
+          400
+        }
+      }
+    }
+  }, (countries, search))
 
   <div className={`country-select ${className}`}>
     <Select.Root
@@ -70,6 +107,7 @@ let make = (~className: string, ~country: option<string>, ~onChange: string => u
             </div>
 
           | ("", None) => selectValue->s
+          | (_, None) => selectValue->s
           }}
         </Select.Value>
         <Select.Icon className="country-select__icon">
@@ -77,31 +115,21 @@ let make = (~className: string, ~country: option<string>, ~onChange: string => u
         </Select.Icon>
       </Select.Trigger>
       <Select.Portal>
-        <Select.Content className="country-select__content">
+        <Select.Content
+          className="country-select__content"
+          style={ReactDOM.Style.make(~height=`${contentHeight->Js.Int.toString}px`, ())}>
           <div>
             <SearchInput value=search onChange={value => setSearch(_ => value)} />
           </div>
-          <Select.ScrollUpButton className="country-select__scroll-button">
-            <ChevronUpIcon />
-          </Select.ScrollUpButton>
           <Select.Viewport className="country-select__viewport">
-            {switch countries {
-            | Empty => <SelectItem value="" label="No countries" />
-            | Data(countries) =>
-              countries
-              ->Js.Array2.filter(country =>
-                search
-                ->Js.String.toLowerCase
-                ->Js.String.includes(country.label->Js.String.toLowerCase)
-              )
-              ->map(country => {
+            {switch filteredCountries {
+            | [] => <SelectItem value="" label="No countries" />
+            | countries =>
+              countries->map(country => {
                 <SelectItem key={country.value} value={country.value} label={country.label} />
               })
             }}
           </Select.Viewport>
-          <Select.ScrollDownButton className="country-select__scroll-button">
-            <ChevronDownIcon />
-          </Select.ScrollDownButton>
         </Select.Content>
       </Select.Portal>
     </Select.Root>
