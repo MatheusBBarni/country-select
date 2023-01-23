@@ -13,17 +13,18 @@ let randonCountryNumber = () => {
 
 module SelectItem = {
   @react.component
-  let make = (~value: string, ~label: string) => {
-    <Select.Item className="country-select__item" disabled={value === ""} value>
+  let make = (~value: string, ~label: string, ~disabled: bool=false) => {
+    <Select.Item className="country-select__item" disabled value>
       <Select.ItemText asChild=true>
         <div className="country-select__item__wrapper">
           <div className="country-select__item__wrapper__texts">
             <Flag svg=true countryCode=value />
             <span className="country-select__item__text"> {label->React.string} </span>
           </div>
-          {switch value {
-          | "" => React.null
-          | _ => <span className="country-select__item__number"> {randonCountryNumber()->s} </span>
+          {switch disabled {
+          | true => React.null
+          | false =>
+            <span className="country-select__item__number"> {randonCountryNumber()->s} </span>
           }}
         </div>
       </Select.ItemText>
@@ -123,7 +124,7 @@ let make = (~className: string, ~country: option<string>, ~onChange: string => u
           </div>
           <Select.Viewport className="country-select__viewport">
             {switch filteredCountries {
-            | [] => <SelectItem value="" label="No countries" />
+            | [] => <SelectItem value="" label="No countries" disabled=true />
             | countries =>
               countries->map(country => {
                 <SelectItem key={country.value} value={country.value} label={country.label} />
